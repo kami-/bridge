@@ -101,20 +101,21 @@ bridge_menu_fnc_closeMenu = {
     [] call (_menu select 3);
 };
 
-bridge_menu_fnc_aceSpecButtonClick = {
-    if (!bridge_menu_aceSpecInterrupted) then {
-        ["bridge_dialog", true] call ace_spectator_fnc_interrupt;
+bridge_menu_fnc_externalOpen = {
+    (findDisplay 49) closeDisplay 0;
+    if (!isNil "ace_spectator_isSet" && {ace_spectator_isSet}) then {
         bridge_menu_aceSpecInterrupted = true;
-        [] spawn {
-            waitUntil { !dialog };
-            createDialog "Bridge_Dialog";
-        };
+        [false] call ace_spectator_fnc_ui;
+    };
+    [] spawn {
+        waitUntil { !dialog };
+        createDialog "Bridge_Dialog";
     };
 };
 
 bridge_menu_fnc_tryReenableAceSpec = {
     if (bridge_menu_aceSpecInterrupted) then {
-        ["bridge_dialog", false] call ace_spectator_fnc_interrupt;
+        [true] call ace_spectator_fnc_ui;
         bridge_menu_aceSpecInterrupted = false;
     };
 };
