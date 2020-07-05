@@ -203,7 +203,7 @@ bridge_console_fnc_evaluateRemoteWatch = {
 bridge_console_fnc_getPlayerTarget = {
     params ["_name"];
 
-    private _players = playableUnits select { name _x == _name };
+    private _players = playableUnits select { [_x] call bridge_console_fnc_getUnitName == _name };
     if (count _players > 0) then { _players select 0 } else { 2 };
 };
 
@@ -297,5 +297,9 @@ bridge_console_fnc_getWatchContexts = {
 bridge_console_fnc_getPlayerContexts = {
     playableUnits
         select { player != _x && {isPlayer _x} }
-        apply { [format ["%1 (Player)", name _x], format ["player%1%2", CONTEXT_PLAYER_SEPARATOR, name _x]] };
+        apply { [format ["%1 (Player)", [_x] call bridge_console_fnc_getUnitName], format ["player%1%2", CONTEXT_PLAYER_SEPARATOR, [_x] call bridge_console_fnc_getUnitName]] };
+};
+
+bridge_console_fnc_getUnitName = {
+    _this call ace_common_fnc_getName;
 };
