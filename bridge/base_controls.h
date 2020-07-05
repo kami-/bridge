@@ -143,6 +143,7 @@ class RscCombo : RscBase {
 
 class RscMapControl {
     moveOnEdges = 1;
+    widthRailWay = 1;
 
     x = 0;
     y = 0;
